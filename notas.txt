@@ -1,0 +1,32 @@
+index.js
+configuration files
+src/
+    modulo
+        model.js 
+        controller.js
+        routes.js 
+
+    auth
+
+
+database.js (connect/db/collection)
+
+o
+
+database/
+    connect.js 
+    database.js 
+    collection.js 
+    index.js 
+
+    
+    database.js (connect/db/collection)
+    BaseModel
+        findAll 
+        findOne 
+        insert 
+        update
+
+
+User extends BaseModel
+    login 
