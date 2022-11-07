@@ -1,10 +1,13 @@
-const database = require('./../../database/database');
+const BaseModel = require('./../../database/model');
 
-class User {
+class User extends BaseModel {
 
-    findAll() {
-        
+    constructor() {
+        super('users');
     }
+
+    login(req, res) {}
+    
 }
 
 module.exports = User;
