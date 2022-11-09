@@ -3,6 +3,11 @@ require('dotenv').config();
 const path = require('path');
 const database = require('./database');
 
+const { OAuth2Client } = require('google-auth-library');
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_ID);
+
+
 const apiRoutes = require('./src/api');
 
 // /assets/styles/estilos.css 
@@ -27,6 +32,18 @@ app.get('/downloads', (req, res) => {
   res.sendFile(path.join(__dirname, 'uploads', filename));
 })
 
+app.get('/google/:token', (req, res) => {
+  const token = req.params.token;
+  console.log('Will validate token ', token);
+  googleClient.verifyIdToken({ idToken: token }).then(response => {
+    const data = response.getPayload();
+    console.log('Data: ', data);
+    res.send('Token is valid');
+  }).catch(err => {
+    console.log('Failed to validate token');
+    res.status(401).send();
+  });
+});
 
 database.connect().then(client => {
 
