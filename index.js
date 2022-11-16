@@ -45,14 +45,36 @@ app.get('/google/:token', (req, res) => {
   });
 });
 
+const socketIo = require('socket.io');
+
 database.connect().then(client => {
 
   const db = client.db('memegenerator');
   database.db(db);
 
-  app.listen(port, () => {
+  const server = app.listen(port, () => {
     console.log('app is running in port ' + port);
   });
+
+  const io = socketIo(server, {
+    cors: {
+      origin: '*'
+    }
+  });
+
+  io.on('connection', socket => {
+    console.log('Alguien se conecto!');
+
+    socket.on('share', data => {
+      console.log('Alguien compartio un meme', data);
+
+      // io.emit('onShared', data);
+      socket.broadcast.emit('onShared', data);
+
+    })
+
+  });
+
 }).catch(err => {
   console.log('Failed to connect to database');
 });
